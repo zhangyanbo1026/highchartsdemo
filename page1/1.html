@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page1</title>
+	<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="../js/highcharts.js"></script>
+	<script type="text/javascript">
+//
+//整体 requirment -> Backlog & Planing meeting-> coding -> testing -> Release
+//个人 requirment  -> Coding -> testing -> fix bug -> support /附件 story point
+//个人 需要有 预估和 实际
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+        title: {
+            text: 'FreightIn Sprint2'
+        },
+        tooltip: {
+    	    pointFormat: '{series.name}: <b>{point.y:.1f}</b><br>Total: <b>{point.total}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                events:{
+                	click:function(){
+                		var cate = event.point;
+                		preparedata(cate.name);
+                }}
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Time Consume',
+            data: [ 
+                ['Requirement',   45.0],
+                ['Backlog & Refined',   45.0],
+                ['Coding',       26.8],
+                ['Testing',       26.8],
+                ['Release',       26.8]
+            ]
+        }]
+    });
+
+    function preparedata(name){
+    	switch(name){
+    		case 'Requirement':
+    		var data = [49.9, 71.5, 106.4, 129.2, 144.0, 176.0];
+    			paintdetail(data,name,categories);
+    			break;
+    		case 'Backlog & Refined':
+    		var data = [49.9, 71.5, 106.4, 129.2, 144.0, 176.0];
+    			paintdetail(data,name,categories);
+    			break;
+    		case 'Coding':
+    		var data = [49.9, 71.5, 106.4, 129.2, 144.0, 176.0];
+    			paintdetail(data,name,categories);
+    			break;
+			case 'Testing':
+    		var data = [49.9, 71.5, 106.4, 129.2, 144.0, 176.0];
+    			paintdetail(data,name,categories);
+    			break;
+    		case 'Release':
+    		var data = [49.9, 71.5, 106.4, 129.2, 144.0, 176.0];
+    			paintdetail(data,name,categories);
+    			break;
+    		default:alert('2');
+    	}
+    }
+    var categories = [
+                    'Eben',
+                    'Kris',
+                    'Jax',
+                    'Charlie',
+                    'Errn',
+                    'Lucy'
+                ]
+function paintdetail(data,title,categories){
+    $('#container2').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: title
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Time Spent'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} hours</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+            	name:title,
+                data: data
+            }]
+        });
+    }
+
+});
+	</script>
+</head>
+
+<body>
+
+<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+<br/>
+<br/>
+<div id="container2" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+</body>
+</html>
