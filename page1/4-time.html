@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>2017 Project</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="../js/highcharts.js"></script>
+    <script type="text/javascript" src="../js/echarts.common.min.js"></script>
+	<script type="text/javascript">
+    
+    $(function () {
+        function prepareData(series)
+        {
+            var data;
+            switch(series.name){
+                case 'IM_MSRP sprint1':
+                    data = {
+                        'Sprint Name':'IM_MSRP sprint1',
+                        'Start Date':'2017-04-01',
+                        'End Date':'2017-04-22',
+                        'Total Hours':100,
+                        'Story QTY':10,
+                        'Story Point':20,
+                        'Dev.':3,
+                        'Tester':3,
+                        'Bug Count':20
+                    };
+                    paintTable(data);
+                    break;
+                default:
+                    break;
+            }      
+        }
+
+        function paintTable(data){
+            var table = '<table>';
+            $.each(data,function(key,value){
+                   table += ('<tr><td>'+key+ ':</td><td>'+value+'</td></tr>');
+            })
+            table += '</table>';
+            $("#container2").html(table);
+        }
+        $('#container').highcharts({
+            chart: {
+                type: 'area'
+            },
+            plotOptions:{
+                area:{
+                    events:{
+                    click:function(){
+                        console.log(event.point.series.name);
+                        prepareData(event.point.series);
+                            }
+                    }
+                }
+            },
+            title: {
+                text: '2017 Sprint Project'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: { // don't display the dummy year
+                    month: '%e. %b',
+                    year: '%b'
+                },
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Story Point'
+                },
+                min: 0
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.x:%e. %b} : {point.y:.2f}'
+            },
+            series: [{
+                name: '2017',
+                // Define the data points. All series have a dummy year
+                // of 1970/71 in order to be compared on the same x axis. Note
+                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                data: [
+                    [Date.UTC(2017,  0, 1), 0   ],
+                    [Date.UTC(2017,  1, 1), 0   ],
+                    [Date.UTC(2017,  2, 1), 0   ],
+                    [Date.UTC(2017,  3, 1), 0   ],
+                    [Date.UTC(2017,  4, 1), 0   ],
+                    [Date.UTC(2017,  5, 1), 0   ],
+                    [Date.UTC(2017,  6, 1), 0   ],
+                    [Date.UTC(2017,  7, 1), 0   ],
+                    [Date.UTC(2017,  8, 1), 0   ],
+                    [Date.UTC(2017,  9, 1), 0   ],
+                    [Date.UTC(2017,  10, 1), 0   ],
+                    [Date.UTC(2017,  11, 1), 0   ]
+                ]
+            },{
+                name: 'IM_FreightIn sprint2',
+                data: [
+                    [Date.UTC(2017,  2, 4), 10   ],
+                    [Date.UTC(2017,  2, 25), 10   ]
+                ]
+            },{
+                name: 'IM_MSRP sprint1',
+                data: [
+                    [Date.UTC(2017,  3, 5), 10   ],
+                    [Date.UTC(2017,  3, 22), 10   ]                ]
+            }]
+        });
+    }); 
+	</script>
+</head>
+<body>
+
+<div id="container" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
+<div id="container2" style="min-width: 410px; height: 400px; max-width: 1000px; margin: 0 auto">
+</div>
+</body>
+</html>

@@ -6,8 +6,48 @@
 	<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="../js/highcharts.js"></script>
     <script type="text/javascript" src="../js/echarts.common.min.js"></script>
+    <script type="text/javascript" src="../js/data.js"></script>
 	<script type="text/javascript">
 $(function () {
+
+
+        var current_year = new Date().getFullYear()
+        var data = global_data;
+        var series = [{
+                name: current_year,
+                // Define the data points. All series have a dummy year
+                // of 1970/71 in order to be compared on the same x axis. Note
+                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                data: [
+                    [Date.UTC(2017,  0, 1), 0 ],
+                    [Date.UTC(2017,  1, 1), 0 ],
+                    [Date.UTC(2017,  2, 1), 0 ],
+                    [Date.UTC(2017,  3, 1), 0 ],
+                    [Date.UTC(2017,  4, 1), 0 ],
+                    [Date.UTC(2017,  5, 1), 0 ],
+                    [Date.UTC(2017,  6, 1), 0 ],
+                    [Date.UTC(2017,  7, 1), 0 ],
+                    [Date.UTC(2017,  8, 1), 0 ],
+                    [Date.UTC(2017,  9, 1), 0 ],
+                    [Date.UTC(2017,  10, 1), 0 ],
+                    [Date.UTC(2017,  11, 1), 0 ]
+                ]
+            }]
+        $.each(data,function(index, value) {
+            var start_time = new Date(value.start_time);
+            var end_time = new Date(value.start_time);
+            var temp = {
+                name:value.sprint_name,
+                data:[
+                    [Date.UTC(start_time.getFullYear(),start_time.getMonth(),start_time.getDate()), value.story_point],
+                    [Date.UTC(end_time.getFullYear(),end_time.getMonth(),end_time.getDate()), value.story_point]    
+                ]
+            }
+            series.push(temp);
+        });
+        console.log(series);
+ 
+
         var categories = [
                     'Eben',
                     'Kris',

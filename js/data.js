@@ -1,0 +1,259 @@
+var global_data = [
+{
+	'sprint_name':'IM_FreightIn sprint2',
+	'start_time':'2017-03-04',
+	'end_time':'2017-03-25',
+	'total_hours':800,
+	'story_qty':10,
+	'story_point':20,
+	'dev.':4,
+	'tester':3,
+	'bug_count':10,
+	'time_overview':{
+		'Requirement':20,
+		'Backlog&Refined':20,
+		'Coding':20,
+		'Testing':20,
+		'Others':20,
+		'Release':20,
+	},
+	'jira_list':{
+		'IM-7001':{
+			'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            }
+        },
+        'IM-7002':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-7003':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-4':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-5':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-6':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        }	
+	}
+},
+{
+	'sprint_name':'IM_MSRP sprint1',
+	'start_time':'2017-04-01',
+	'end_time':'2017-04-22',
+	'total_hours':200,
+	'story_qty':10,
+	'story_point':20,
+	'dev.':4,
+	'tester':3,
+	'bug_count':10,
+	'time_overview':{
+		'Requirement':20,
+		'Backlog&Refined':20,
+		'Coding':20,
+		'Testing':20,
+		'Others':20,
+		'Release':20,
+	},
+	'jira_list':{
+		'IM-1':{
+			'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            }
+        },
+        'IM-2':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-3':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-4':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-5':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:3,act:2},
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        },
+        'IM-6':{
+        	'story_point':3,
+            'est':1,
+            'act':2,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{
+                	est:3,
+                	act:2
+                },
+                'Coding':{est:3,act:2},
+                'Testing':{est:3,act:2},
+                'Fix bug':{est:3,act:2},
+            },
+        }	
+	}
+},
+{
+	'sprint_name':'IM_INTLSelling',
+	'start_time':'2017-04-29',
+	'end_time':'2017-05-15',
+	'total_hours':352,
+	'story_qty':10,
+	'story_point':18,
+	'dev.':4,
+	'tester':3,
+	'bug_count':10,
+	'time_overview':{
+		'Requirement':50,
+		'Backlog&Refined':40,
+		'Coding':186,
+		'Testing':192,
+		'Others':96,
+		'Release':10,
+	},
+	'jira_list':{
+		'IM-8001':{
+			'story_point':3,
+            'est':80,
+            'act':65,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:18,act:16},
+                'Coding':{est:32,act:24},
+                'Testing':{est:20,act:18},
+                'Fix bug':{est:20,act:7},
+            }
+        },
+        'IM-8002':{
+        	'story_point':3,
+            'est':40,
+            'act':35,
+            'bug_count':2,
+            'detail':{
+                'Requirement':{est:8,act:7},
+                'Coding':{est:12,act:8},
+                'Testing':{est:12,act:10},
+                'Fix bug':{est:8,act:10},
+            },
+        },
+        'IM-8003':{
+        	'story_point':2,
+            'est':16,
+            'act':14,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:4,act:6},
+                'Coding':{est:8,act:6},
+                'Testing':{est:2,act:2},
+                'Fix bug':{est:2,act:0},
+            },
+        },
+        'IM-8004':{
+        	'story_point':1,
+            'est':4,
+            'act':4,
+            'bug_count':3,
+            'detail':{
+                'Requirement':{est:1,act:1},
+                'Coding':{est:1,act:1},
+                'Testing':{est:1,act:1},
+                'Fix bug':{est:1,act:1},
+            }
+        }
+	}
+}]

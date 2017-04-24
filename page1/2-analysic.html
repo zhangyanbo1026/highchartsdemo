@@ -4,12 +4,18 @@
 	<title>Page1</title>
 	<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="../js/highcharts.js"></script>
+    <script type="text/javascript" src="../js/highcharts-more.js"></script>
+    <script type="text/javascript" src="../js/data.js"></script>
 	<script type="text/javascript">
-//
-//整体 requirment -> Backlog & Planing meeting-> coding -> testing -> Release
-//个人 requirment  -> Coding -> testing -> fix bug -> support /附件 story point
-//个人 需要有 预估和 实际
 $(function () {
+var datasource = global_data;
+var series_data = [];
+
+$.each(datasource,function(index,sprint){
+
+
+})
+
     $('#container').highcharts({
         chart: {
             plotBackgroundColor: null,
@@ -32,29 +38,94 @@ $(function () {
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }
-                },
-                events:{
+                }
+                /*events:{
                 	click:function(){
                 		var cate = event.point;
 						console.log(cate);
                         console.log(cate.selected);
                 		preparedata(cate.name);
-                }}
+                    }
+                }*/
             }
         },
         series: [{
             type: 'pie',
             name: 'Time Consume',
-            data: [ 
-                ['Requirement',   45.0],
-                ['Backlog & Refined',   45.0],
-                ['Coding',       26.8],
-                ['Testing',       26.8],
-                ['Release',       26.8]
-            ]
+            data: 
+                [ 
+                    ['Requirement',   45.0],
+                    ['Backlog & Refined',   45.0],
+                    ['Coding',       26.8],
+                    ['Testing',       26.8],
+                    ['Release',       26.8]
+                ]
         }]
     });
 
+    $('#container2').highcharts({
+        chart: {
+            type: 'waterfall'
+        },
+        title: {
+            text: 'Sprint'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Hours'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y:,.2f}</b>'
+        },
+
+        series: [{
+            upColor: Highcharts.getOptions().colors[2],
+            color: Highcharts.getOptions().colors[3],
+            data: [{
+                name: 'Requirement',
+                y: 20
+            }, {
+                name: 'Backlog & Refined',
+                y: 20
+            }, {
+                name: 'Coding',
+                y: 20
+            },{
+                name: 'Testing',
+                y: 20
+            },{
+                name: 'Release',
+                y: 20
+            },{
+                name: 'Others',
+                y: 20
+            },{
+                name: 'Total Hours',
+                isIntermediateSum: true,
+                color: Highcharts.getOptions().colors[1]
+            }],
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    return Highcharts.numberFormat(this.y, 0, ',') + 'h';
+                },
+                style: {
+                    color: '#FFFFFF',
+                    fontWeight: 'bold',
+                    textShadow: '0px 0px 3px black'
+                }
+            },
+            pointPadding: 0
+        }]
+    });
+/*
     function preparedata(name){
     	switch(name){
     		case 'Requirement':
@@ -125,18 +196,17 @@ function paintdetail(data,title,categories){
             }]
         });
     }
-
+*/
 });
 	</script>
 </head>
 
 <body>
 
-<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+<div id="container" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
 <br/>
 <br/>
-<div id="container2" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-
+<div id="container2" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
 
 </body>
 </html>

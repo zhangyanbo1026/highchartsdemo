@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>2017 Project</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="../js/highcharts.js"></script>
+    <script type="text/javascript" src="../js/echarts.common.min.js"></script>
+    <script type="text/javascript" src="../js/highcharts-more.js"></script>
+    <script type="text/javascript" src="../js/data.js"></script>
+	<script type="text/javascript">
+    
+    $(function () {
+        //prepare sprint info
+        var current_jira_list;
+        var current_year = new Date().getFullYear()
+        var datasource = global_data;
+        var series = [{
+                name: current_year,
+                // Define the data points. All series have a dummy year
+                // of 1970/71 in order to be compared on the same x axis. Note
+                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                data: [
+                    [Date.UTC(current_year,  0, 1), 0 ],
+                    [Date.UTC(current_year,  1, 1), 0 ],
+                    [Date.UTC(current_year,  2, 1), 0 ],
+                    [Date.UTC(current_year,  3, 1), 0 ],
+                    [Date.UTC(current_year,  4, 1), 0 ],
+                    [Date.UTC(current_year,  5, 1), 0 ],
+                    [Date.UTC(current_year,  6, 1), 0 ],
+                    [Date.UTC(current_year,  7, 1), 0 ],
+                    [Date.UTC(current_year,  8, 1), 0 ],
+                    [Date.UTC(current_year,  9, 1), 0 ],
+                    [Date.UTC(current_year,  10, 1), 0 ],
+                    [Date.UTC(current_year,  11, 1), 0 ]
+                ]
+            }]
+        $.each(datasource,function(index, value) {
+            var start_time = new Date(value.start_time);
+            var end_time = new Date(value.end_time);
+            var temp = {
+                name:value.sprint_name,
+                data:[
+                    [Date.UTC(start_time.getFullYear(),start_time.getMonth(),start_time.getDate()), value.story_point],
+                    [Date.UTC(end_time.getFullYear(),end_time.getMonth(),end_time.getDate()), value.story_point]    
+                ]
+            }
+            series.push(temp);
+        });
+
+        function prepareData(local_series){
+            var temp; 
+            $.each(datasource,function(index,sprint){
+                // console.log(index);
+                // console.log(local_series.name);
+                // console.log(sprint.sprint_name);
+                if (sprint.sprint_name == local_series.name) {
+                    temp = sprint;
+                }
+            })
+            if (temp!= undefined) {
+                painttable(temp);
+                paintchart(temp);
+            }
+        }
+
+        function painttable(sprint){
+            var table = '<table>';
+            $.each(sprint,function(key,value){
+                if (key != 'jira_list' && key != 'time_overview') {
+                   table += ('<tr><td>'+key+ ':</td><td>'+value+'</td></tr>'); 
+                }
+            })
+            table += '</table>';
+            $("#container2").html(table);
+        }
+
+        function paintchart(sprint){
+            var series_pie = [];
+            var series_waterfall = [];
+            var obj;
+            $.each(sprint.time_overview,function(key,value){
+                var array_temp = [key,value];
+                series_pie.push(array_temp);
+                obj = {
+                    name:key,
+                    y:value
+                }
+                series_waterfall.push(obj)
+            });
+            if (series_pie.length > 0){
+                paint_pie(sprint.sprint_name, series_pie);
+            }
+
+            if (series_waterfall.length > 0) {
+                series_waterfall.push({
+                    name: 'Total Hours',
+                    isIntermediateSum: true,
+                    color: Highcharts.getOptions().colors[1]
+                });
+                paint_waterfall(sprint.sprint_name,series_waterfall);
+            }
+
+            //['im1','im2','IM3']
+            var categories = [];
+            //requirment,coding,fixbug,testing
+            var detailcategories  = []
+            //[1, 2, 3, 4, 5, 6]
+            var est = []
+            //[1, 2, 3, 4, 5, 6]
+            var act = []
+            //[1, 2, 3, 4, 5, 6]
+            var story_point = []
+            //[1, 2, 3, 4, 5, 6]
+            var bug_count = []
+            //[1,2,3,4]
+            var act_detail_value = []
+            //[1,2,3,4]
+            var est_detail_value = []
+
+            var act_detail_category = []
+            var est_detail_category = []
+            if (sprint.jira_list != undefined) {
+                current_jira_list = sprint.jira_list;
+                $.each(sprint.jira_list, function(index, item) {
+                    categories = categories.concat(index);
+                    est = est.concat(item.est);
+                    act = act.concat(item.act);
+                    story_point = story_point.concat(item.story_point); 
+                    bug_count = bug_count.concat(item.bug_count); 
+                });
+                var ob = [
+                {
+                    name: 'Est.',
+                    data: est
+                },{
+                    name: 'Act.',
+                    data: act
+                },{
+                    name:'Bug Count',
+                    data:bug_count
+                }, {
+                    type: 'spline',
+                    name: 'story point',
+                    data: story_point,
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                }]
+                // console.log(est)
+                // console.log(act)
+                // console.log(story_point);
+                // console.log(categories);
+                // console.log(ob);
+                paint_detail(sprint.sprint_name,categories,ob);
+            }
+            
+            // $.each(sprint,function(key,value){
+
+            // })
+
+        }
+
+        $('#container').highcharts({
+            chart: {
+                type: 'area'
+            },
+            plotOptions:{
+                area:{
+                    events:{
+                        click:function(){
+                            $("#container6").hide();
+                            prepareData(event.point.series);
+                            }
+                    }
+                }
+            },
+            title: {
+                text: '2017 Sprint Project'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: { // don't display the dummy year
+                    month: '%e. %b',
+                    year: '%b'
+                },
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Story Point'
+                },
+                min: 0
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.x:%e. %b} : {point.y:.2f}'
+            },
+            series: series
+        });
+
+        function paint_pie(name,series_pie){  
+            $('#container3').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 1,//null,
+                    plotShadow: false
+                },
+                title: {
+                    text: name
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y:.1f}</b><br>Total: <b>{point.total}</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                        /*events:{
+                            click:function(){
+                                var cate = event.point;
+                                console.log(cate);
+                                console.log(cate.selected);
+                                preparedata(cate.name);
+                            }
+                        }*/
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Time Consume',
+                    data: series_pie
+                }]
+            });  
+        }
+
+        function paint_waterfall(name,series_waterfall) {
+            $('#container4').highcharts({
+                chart: {
+                    type: 'waterfall'
+                },
+                title: {
+                    text: name
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Hours'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '<b>{point.y:,.2f}</b>'
+                },
+
+                series: [{
+                    upColor: Highcharts.getOptions().colors[2],
+                    color: Highcharts.getOptions().colors[3],
+                    data: series_waterfall,
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            return Highcharts.numberFormat(this.y, 0, ',') + 'h';
+                        },
+                        style: {
+                            color: '#FFFFFF',
+                            fontWeight: 'bold',
+                            textShadow: '0px 0px 3px black'
+                        }
+                    },
+                    pointPadding: 0
+                }]
+            });
+        }
+        function paint_childchart(point){
+            console.log(point);
+            var child_categories = [];
+            var child_est = [];
+            var child_act = [];
+            var obj_child;
+            if (current_jira_list != undefined) {
+                $.each(current_jira_list, function(index, item) {
+                    if (index == point) {
+                        $.each(item.detail, function(key, value) {
+                            child_categories = child_categories.concat(key);
+                            child_est = child_est.concat(value.est)
+                            child_act = child_act.concat(value.act)
+                        });
+                    }
+                });
+                obj_child = [{
+                        name:'Est.',
+                        data: child_est
+                    },{
+                        name:'Act.',
+                        data: child_act
+                    }]
+                }
+            //console.log(current_jira_list);
+            $('#container6').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: point
+                },
+                xAxis: {
+                    categories: child_categories
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Time Spent'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} hours</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: obj_child
+            });
+        }
+
+        function paint_detail(name,categories,series_data){
+            $('#container5').highcharts({
+                chart:{
+                    type:'column'
+                },
+                title: {
+                    text: name
+                },
+                xAxis: {
+                    categories: categories
+                },
+                plotOptions: {
+                    column:{
+                        events:{
+                            click:function() {
+                                $("#container6").show();
+                                paint_childchart(event.point.category);                    
+                            }
+                        }    
+                    }
+                },
+                labels: {
+                },
+                series: series_data
+            });
+        }
+    }); 
+	</script>
+</head>
+<body>
+
+<div id="container" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
+<div id="container2" style="min-width: 410px; height: 300px; max-width: 1000px; margin: 0 auto"></div>
+<div id="container3" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
+<div id="container4" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
+<br/>
+<div id="container5" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
+<div id="container6" style="min-width: 510px; height: 400px; max-width: 1000px; margin: 0 auto"></div>
+
+<!--<a href="1.html">Next -></a>-->
+</body>
+</html>
